@@ -1,7 +1,9 @@
+import React from "react";
 import "./App.css";
-import ExpenseItem from "./components/ExpenseItem";
+import Expenses from "./components/Expenses/Expenses";
+import NewExpense from "./components/NewExpense/NewExpense";
 
-function App() {
+const App = () => {
   const expenses = [
     {
       id: "e1",
@@ -35,18 +37,28 @@ function App() {
     },
   ];
 
+  const addExpenseHandler = (expenses) => {
+    console.log("In App.js");
+    console.log(expenses);
+  };
+
+  // JSX 코드는 아래 코드와 같은 방식이며, 이를 편하게 사용할 수 있게 해주는데
+  // 두 개 이상 return 할 수 없기 때문에 react는 항상 루트 컴포넌트가 필요한 것이다.
+  // return React.createElement(
+  //   "div",
+  //   {},
+  //   React.createElement("h2", {}, "Let's get started!"),
+  //   React.createElement(Expenses, { expenses })
+  // );
+
   return (
     <div className="App">
-      {expenses.map((item) => (
-        <ExpenseItem
-          key={item.id}
-          date={item.date}
-          title={item.title}
-          amount={item.amount}
-        />
-      ))}
+      <h2>Let's get started!</h2>
+      <NewExpense onAddExpense={addExpenseHandler} />
+
+      <Expenses expenses={expenses} />
     </div>
   );
-}
+};
 
 export default App;
