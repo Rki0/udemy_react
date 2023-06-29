@@ -1,23 +1,21 @@
-import React, { useState, useCallback, useMemo } from "react";
+import UserFinder from "./components/UserFinder";
+import UsersContext from "./store/users-context";
 
-import "./App.css";
-import DemoList from "./components/Demo/DemoList";
-import Button from "./components/UI/Button/Button";
+const DUMMY_USERS = [
+  { id: "u1", name: "Max" },
+  { id: "u2", name: "Manuel" },
+  { id: "u3", name: "Julie" },
+];
 
 function App() {
-  const [listTitle, setListTitle] = useState("My List");
-
-  const changeTitleHandler = useCallback(() => {
-    setListTitle("New Title");
-  }, []);
-
-  const listItems = useMemo(() => [5, 3, 1, 10, 9], []);
+  const usersContext = {
+    users: DUMMY_USERS,
+  };
 
   return (
-    <div className="app">
-      <DemoList title={listTitle} items={listItems} />
-      <Button onClick={changeTitleHandler}>Change List Title</Button>
-    </div>
+    <UsersContext.Provider value={usersContext}>
+      <UserFinder />
+    </UsersContext.Provider>
   );
 }
 
