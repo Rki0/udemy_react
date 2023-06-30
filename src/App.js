@@ -1,99 +1,52 @@
 import React, { useState } from "react";
+
+import MoviesList from "./components/MoviesList";
 import "./App.css";
-import Expenses from "./components/Expenses/Expenses";
-import NewExpense from "./components/NewExpense/NewExpense";
 
-// const DUMMY_EXPENSES = [
-//   {
-//     id: "e1",
-//     date: new Date(2023, 4, 10),
-//     title: "Toilet Paper",
-//     amount: "294.67",
-//   },
-//   {
-//     id: "e2",
-//     date: new Date(2023, 4, 10),
-//     title: "Car Insurance",
-//     amount: "124.5",
-//   },
-//   {
-//     id: "e3",
-//     date: new Date(2023, 4, 10),
-//     title: "Car Insurance",
-//     amount: "272",
-//   },
-//   {
-//     id: "e4",
-//     date: new Date(2023, 4, 10),
-//     title: "Car Insurance",
-//     amount: "2.67",
-//   },
-//   {
-//     id: "e5",
-//     date: new Date(2023, 4, 10),
-//     title: "Car Insurance",
-//     amount: "450",
-//   },
-// ];
+function App() {
+  // const dummyMovies = [
+  //   {
+  //     id: 1,
+  //     title: 'Some Dummy Movie',
+  //     openingText: 'This is the opening text of the movie',
+  //     releaseDate: '2021-05-18',
+  //   },
+  //   {
+  //     id: 2,
+  //     title: 'Some Dummy Movie 2',
+  //     openingText: 'This is the second opening text of the movie',
+  //     releaseDate: '2021-05-19',
+  //   },
+  // ];
 
-const DUMMY_EXPENSES = [
-  {
-    id: "e1",
-    date: new Date(2023, 4, 10),
-    title: "Toilet Paper",
-    amount: 294.67,
-  },
-  {
-    id: "e2",
-    date: new Date(2023, 4, 10),
-    title: "Car Insurance",
-    amount: 124.5,
-  },
-  {
-    id: "e3",
-    date: new Date(2023, 4, 10),
-    title: "Car Insurance",
-    amount: 272,
-  },
-  {
-    id: "e4",
-    date: new Date(2023, 4, 10),
-    title: "Car Insurance",
-    amount: 2.67,
-  },
-  {
-    id: "e5",
-    date: new Date(2023, 4, 10),
-    title: "Car Insurance",
-    amount: 450,
-  },
-];
+  const [movies, setMovies] = useState([]);
 
-const App = () => {
-  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+  async function fetchMoviesHandler() {
+    const response = await fetch("https://swapi.dev/api/films/");
+    const data = await response.json();
 
-  const addExpenseHandler = (expense) => {
-    setExpenses((prevExpenses) => {
-      return [expense, ...prevExpenses];
+    const transformedMovies = data.results.map((movieData) => {
+      return {
+        id: movieData.episode_id,
+        title: movieData.title,
+        openingText: movieData.opening_crawl,
+        releaseDate: movieData.release_date,
+      };
     });
-  };
 
-  // JSX 코드는 아래 코드와 같은 방식이며, 이를 편하게 사용할 수 있게 해주는데
-  // 두 개 이상 return 할 수 없기 때문에 react는 항상 루트 컴포넌트가 필요한 것이다.
-  // return React.createElement(
-  //   "div",
-  //   {},
-  //   React.createElement("h2", {}, "Let's get started!"),
-  //   React.createElement(Expenses, { expenses })
-  // );
+    setMovies(transformedMovies);
+  }
 
   return (
-    <div className="App">
-      <NewExpense onAddExpense={addExpenseHandler} />
-
-      <Expenses items={expenses} />
-    </div>
+    <React.Fragment>
+      <section>
+        <button onClick={fetchMoviesHandler}>Fetch Movies</button>
+      </section>
+      <section>
+        <MoviesList movies={movies} />
+      </section>
+    </React.Fragment>
   );
-};
+}
 
 export default App;
