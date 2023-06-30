@@ -1,23 +1,21 @@
-import React, { useState } from "react";
+import UserFinder from "./components/UserFinder";
+import UsersContext from "./store/users-context";
 
-import Button from "./components/UI/Button/Button";
-import "./App.css";
+const DUMMY_USERS = [
+  { id: "u1", name: "Max" },
+  { id: "u2", name: "Manuel" },
+  { id: "u3", name: "Julie" },
+];
 
 function App() {
-  const [showParagraph, setShowParagraph] = useState(false);
-
-  console.log("APP RUNNING");
-
-  const toggleParagraphHandler = () => {
-    setShowParagraph((prevShowParagraph) => !prevShowParagraph);
+  const usersContext = {
+    users: DUMMY_USERS,
   };
 
   return (
-    <div className="app">
-      <h1>Hi there!</h1>
-      {showParagraph && <p>This is new!</p>}
-      <Button onClick={toggleParagraphHandler}>Toggle Paragraph!</Button>
-    </div>
+    <UsersContext.Provider value={usersContext}>
+      <UserFinder />
+    </UsersContext.Provider>
   );
 }
 
