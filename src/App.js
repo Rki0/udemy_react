@@ -1,21 +1,19 @@
-import UserFinder from "./components/UserFinder";
-import UsersContext from "./store/users-context";
-
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
+import Header from "./components/Header";
+import Auth from "./components/Auth";
+import Counter from "./components/Counter";
+import UserProfile from "./components/UserProfile";
+import { useSelector } from "react-redux";
 
 function App() {
-  const usersContext = {
-    users: DUMMY_USERS,
-  };
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   return (
-    <UsersContext.Provider value={usersContext}>
-      <UserFinder />
-    </UsersContext.Provider>
+    <>
+      <Header />
+      {!isAuth && <Auth />}
+      {isAuth && <UserProfile />}
+      <Counter />
+    </>
   );
 }
 
