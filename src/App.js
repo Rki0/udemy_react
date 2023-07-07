@@ -1,22 +1,20 @@
-import UserFinder from "./components/UserFinder";
-import UsersContext from "./store/users-context";
+import React from 'react';
+import { Route } from 'react-router-dom';
 
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
+import Navigation from './components/Nav/Navigation';
+import ProductsPage from './containers/Products';
+import FavoritesPage from './containers/Favorites';
 
-function App() {
-  const usersContext = {
-    users: DUMMY_USERS,
-  };
-
+const App = props => {
   return (
-    <UsersContext.Provider value={usersContext}>
-      <UserFinder />
-    </UsersContext.Provider>
+    <React.Fragment>
+      <Navigation />
+      <main>
+        <Route path="/" component={ProductsPage} exact />
+        <Route path="/favorites" component={FavoritesPage} />
+      </main>
+    </React.Fragment>
   );
-}
+};
 
 export default App;
